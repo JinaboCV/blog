@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 
 class Category(models.Model):
@@ -10,18 +11,22 @@ class Category(models.Model):
     def __str__(self):
         return self.title
     
-class Writer(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField(max_length=254)
+class Writer(AbstractUser):
+    email = models.EmailField(unique=True)
+    is_staff = models.BooleanField(default=True)
     phone = models.CharField(max_length=30)
-    password = models.CharField(max_length=255)
+    bio = models.TextField(blank=True)
     deleted_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)    
+
+    def __str__(self):
+        return self.username
+    
+class Tag(models.Model):
+    name = models.CharField(max_length=250)
 
     def __str__(self):
         return self.name
-    
-
     
 class Article(models.Model):
     author = models.ForeignKey(Writer, on_delete=models.SET_NULL, null=True, blank= True)
@@ -29,6 +34,7 @@ class Article(models.Model):
     title = models.CharField(max_length=255)
     thumbnail = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=None)
     content = models.TextField()
+    tags = models.ManyToManyField(Tag)
     deleted_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
