@@ -4,60 +4,40 @@
 <div class="container">
     <hr>
     <!-- Category Header -->
-     <h2 class="text-center">Science</h2>
-     <hr class="w-25 mx-auto my-3" style="height: 2px; width: 50px;">
-    <div class="container py-4">
-        <div class="row border-bottom pb-4 mb-4 align-items-center">
-            <!-- Date -->
-            <div class="col-2 text-center">
-                <div class="text-muted">
-                    <strong>Apr 11</strong><br>
-                    <small>2025</small>
-                </div>
-            </div>
-    
-            <!-- Blog Content -->
-            <div class="col-8">
-                <h5 class="mb-1 fw-semibold">Court Jails Nine Internet Fraudsters in Edo</h5>
-                <p class="mb-2 text-muted small">
-                    The Economic and Financial Crimes Commission has secured the conviction of nine internet fraudsters...
-                </p>
-                <p class="mb-0"><small class="text-primary">By Olumayowa Samuel</small></p>
-            </div>
-    
-            <!-- Thumbnail -->
-            <div class="col-2">
-                <img src="https://ichef.bbci.co.uk/news/1024/cpsprodpb/04cb/live/f57cf9e0-183f-11f0-b1b3-7358f8d35a35.jpg.webp" alt="Post Image" class="img-fluid">
-            </div>
-        </div>
+    <h2 class="text-center"> {{category}} </h2>
+    <hr class="w-25 mx-auto my-3" style="height: 2px; width: 50px;">
+    {% if articles %}
+        <div class="container py-4">
+            {% for article in articles %}
+                <div class="row border-bottom pb-4 mb-4 align-items-center">
+                    <!-- Date -->
+                    <div class="col-2 text-center">
+                        <div class="text-muted">
+                            <strong> {{article.updated_at|date:'M d'}} </strong><br>
+                            <small> {{article.updated_at|date:'Y'}} </small>
+                        </div>
+                    </div>
 
-        <div class="row border-bottom pb-4 mb-4 align-items-center">
-            <!-- Date -->
-            <div class="col-2 text-center">
-                <div class="text-muted">
-                    <strong>Apr 11</strong><br>
-                    <small>2025</small>
+                    <!-- Blog Content -->
+                    <div class="col-8">
+                        <h5 class="mb-1 fw-semibold"> {{article.title}} </h5>
+                        <p class="mb-2 text-muted small">
+                            {{article.content|truncatewords:35}}
+                        </p>
+                        <p class="mb-0"><small class="text-primary">By {{article.author}} </small></p>
+                    </div>
+
+                    <!-- Thumbnail -->
+                    <div class="col-2">
+                        <img src=" {{article.thumbnail.url }} "
+                            alt="  {{article.title}} " class="img-fluid">
+                    </div>
                 </div>
-            </div>
-    
-            <!-- Blog Content -->
-            <div class="col-8">
-                <h5 class="mb-1 fw-semibold">Court Jails Nine Internet Fraudsters in Edo</h5>
-                <p class="mb-2 text-muted small">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim, architecto inventore. Quae dicta quibusdam laudantium, illum corrupti amet, provident necessitatibus vel debitis repellat deleniti id.
-                </p>
-                <p class="mb-0"><small class="text-primary">By Olumayowa Samuel</small></p>
-            </div>
-    
-            <!-- Thumbnail -->
-            <div class="col-2">
-                <img src="https://ichef.bbci.co.uk/news/1024/cpsprodpb/04cb/live/f57cf9e0-183f-11f0-b1b3-7358f8d35a35.jpg.webp" alt="Post Image" class="img-fluid">
-            </div>
+            {% endfor %}
         </div>
-    
-        <!-- Repeat for more posts -->
-    </div>
-    
+    {% else %}
+        <h6 class="text-center">No {{category.title}} posts are available </h6>
+    {% endif %}
 </div>
 
-    {% endblock %}
+{% endblock %}
