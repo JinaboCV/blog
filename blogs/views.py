@@ -6,15 +6,7 @@ from .models import Category, Article, Writer, Tag
 def index(request):
     return render(request, 'blogs/index.html')
 
-def categories_nav(request):
-    categories= Category.objects.all()
-    context = {'categories': categories}
-    return render(request, 'blogs/navbar.html', context=context)
 
-def categories_footer(request):
-    categories= Category.objects.all()
-    context = {'categories': categories}
-    return render(request, 'blogs/footer.html', context=context)
 
 
 def category_page(request, category_id):
