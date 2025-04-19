@@ -6,23 +6,17 @@
     <div class="row">
         <div class="col-lg-10">
             <div class="p-4 rounded bg-white">
-                <h1 class="text-center mb-3 fw-bold">Court Jails Nine Internet Fraudsters in Edo</h1>
-                <p class="text-center text-muted mb-4">By <strong>Olumayowa Samuel</strong> | April 11, 2025</p>
+                <h1 class="text-center mb-3 fw-bold"> {{article.title}} </h1>
+                <p class="text-center text-muted mb-4">By <strong> {{article.author}} </strong> | {{article.updated_at|date:'M d Y'}}</p>
                 <div class="text-center mb-4">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zwhySGCEBxRRFYIcQgvOLOpRGqrT3d7Qng&s"
-                        alt="Fraudsters jailed" class="img-fluid w-100 mb-2"
+                    <img src="{{article.thumbnail.url}}"
+                        alt="{{article.title}}" class="img-fluid w-100 mb-2"
                         style="object-fit: cover; max-height: 500px;">
                     <!-- image description -->
                     <small class="text-secondary">Governor of Borno State, Babagana Umara Zulum</small>
                 </div>
                 <article class="fs-5 lh-lg text-justify text-muted">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati ex sint, quae error
-                    quia, vero quod similique rerum ullam officiis quis repellendus dolorum eius vel, temporibus
-                    necessitatibus officia nesciunt tenetur expedita atque. Ipsum quibusdam dignissimos dolore
-                    voluptatibus consequatur animi, error doloremque ex tempora tempore nulla suscipit sapiente ratione
-                    delectus
-                    velit debitis...
-                </article>
+                    {{article.content}}
             </div>
         </div>
         <div class="col-lg-2 my-5 pt-5">

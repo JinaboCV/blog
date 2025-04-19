@@ -11,16 +11,17 @@ class Category(models.Model):
     def __str__(self):
         return self.title
     
-class Writer(AbstractUser):
+class Writer(models.Model):
+    first_name = models.CharField(max_length=256)
+    last_name = models.CharField(max_length=256)
     email = models.EmailField(unique=True)
-    is_staff = models.BooleanField(default=True)
     phone = models.CharField(max_length=30)
     bio = models.TextField(blank=True)
     deleted_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)    
 
     def __str__(self):
-        return self.username
+        return f"{self.first_name} {self.last_name}"
     
 class Tag(models.Model):
     name = models.CharField(max_length=250)

@@ -20,7 +20,7 @@
 
                     <!-- Blog Content -->
                     <div class="col-8">
-                        <h5 class="mb-1 fw-semibold"> {{article.title}} </h5>
+                        <h5 class="mb-1 fw-semibold"> <a href="{% url 'article' article.id %}" class="text-dark text-decoration-none">{{article.title}}</a></h5>
                         <p class="mb-2 text-muted small">
                             {{article.content|truncatewords:35}}
                         </p>
@@ -29,8 +29,12 @@
 
                     <!-- Thumbnail -->
                     <div class="col-2">
-                        <img src=" {{article.thumbnail.url }} "
+
+                        <a href="{% url 'article' article.id %}" class="text-dark text-decoration-none">
+                            <img src=" {{article.thumbnail.url }} "
                             alt="  {{article.title}} " class="img-fluid">
+                        </a>
+                        
                     </div>
                 </div>
             {% endfor %}
