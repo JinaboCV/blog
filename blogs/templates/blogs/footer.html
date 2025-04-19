@@ -9,7 +9,7 @@
           <div class="col-6">
             <ul class="list-unstyled">
               {% for category in categories %}
-                <li><a href="{% url 'category' category.id %}" class="text-dark  text-decoration-none"> {{category.title}} </a></li>
+                <li><a href="{% url 'category' category.id %}" class="text-dark  text-decoration-none"> {{category.title}} </a></li>              
               {% endfor %}
             
             </ul>
