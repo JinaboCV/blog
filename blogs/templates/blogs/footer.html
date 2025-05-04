@@ -7,17 +7,25 @@
         <h5 class="mb-3">Categories</h5>
         <div class="row">
           <div class="col-6">
-            <ul class="list-unstyled">
+            <ul class="list-unstyled ">
               {% for category in categories %}
-                <li><a href="{% url 'category' category.id %}" class="text-dark  text-decoration-none"> {{category.title}} </a></li>              
+                {% if forloop.counter0|divisibleby:2 %}
+                  <li class="text-center">
+                    <a href="{% url 'category' category.id %}" class="text-dark text-decoration-none">{{ category.title }}</a>
+                  </li>
+                {% endif %}
               {% endfor %}
-            
+
             </ul>
           </div>
           <div class="col-6">
             <ul class="list-unstyled">
               {% for category in categories %}
-                <li><a href="#" class="text-dark  text-decoration-none"> {{category.title}} </a></li>
+                {% if not forloop.counter0|divisibleby:2 %}
+                  <li>
+                    <a href="{% url 'category' category.id %}" class="text-dark text-decoration-none">{{ category.title }}</a>
+                  </li>
+                {% endif %}
               {% endfor %}
             </ul>
           </div>
@@ -43,11 +51,11 @@
           <li><a href="#" class="text-dark " target="_blank">Terms Terms</a></li>
           <li><a href="#" class="text-dark " target="_blank">About Us</a></li>
         </ul>
-        
-        
-        
+
+
+
       </div>
-      
+
       <!-- Subscription Form -->
       <div class="col-lg-5 mb-4">
         <h5 class="mb-3">Subscribe to our Newsletter</h5>
@@ -68,7 +76,7 @@
 
     <!-- Bottom text -->
     <div class="text-center text-secondary mt-4">
-      &copy; 2025 Your JinaboCV. All rights reserved.
+      &copy; 2025 Your <a class="text-dark" href="{% url 'home' %}">JinaboCV.</a> All rights reserved.
     </div>
   </div>
 </footer>
