@@ -2,12 +2,13 @@
 
 {% block content %}
 
-<div class="container py-5">
-    <div class="row">
+<div class="container">
+    <hr>
+    <div class="row py-5">
         <div class="col-lg-10">
             <div class="p-4 rounded bg-white">
                 <h1 class="text-center mb-3 fw-bold"> {{article.title}} </h1>
-                <p class="text-center text-muted mb-4">By <strong> {{article.author}} </strong> | {{article.updated_at|date:'M d Y'}}</p>
+                <p class="text-center text-muted mb-4">By <strong> {{article.author.user}} </strong> | {{article.updated_at|date:'M d Y'}}</p>
                 <div class="text-center mb-4">
                     <img src="{{article.thumbnail.url}}"
                         alt="{{article.title}}" class="img-fluid w-100 mb-2"
@@ -16,48 +17,30 @@
                     <small class="text-secondary">Governor of Borno State, Babagana Umara Zulum</small>
                 </div>
                 <article class="fs-5 lh-lg text-justify text-muted">
-                    {{article.content}}
+                    {{article.content|linebreaksbr}}
             </div>
         </div>
         <div class="col-lg-2 my-5 pt-5">
             <div class="text-justify">
-                <h4 class="mb-4 fw-bold">Recent News</h4>
-        
+                <h4 class="mb-4 fw-bold text-danger">Recent News</h4>
+    
+                {% for article in recent_articles %}
+                    <a href="{% url 'article' article.id %}" class="text-dark">
+                        <div class="mb-4">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-square-fill text-warning me-2 mt-1"></i>
+                                <div>
+                                    <h6 class="mb-1"> {{article.title|truncatewords:6}} </h6>
+                                    <small class="text-muted">{{article.updated_at|date:"F d, Y"}}</small>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </a>
+                    
+                {% endfor %}
                 <!-- Recent News Item -->
-                <div class="mb-4">
-                    <div class="d-flex align-items-start">
-                        <i class="bi bi-square-fill text-muted me-2 mt-1"></i>
-                        <div>
-                            <h6 class="mb-1">Lecturer claims dismissal was politically motivated</h6>
-                            <small class="text-muted">April 10, 2025</small>
-                        </div>
-                    </div>
-                    <hr>
-                </div>
-        
-                <!-- Another News Item -->
-                <div class="mb-4">
-                    <div class="d-flex align-items-start">
-                        <i class="bi bi-square-fill text-muted me-2 mt-1"></i>
-                        <div>
-                            <h6 class="mb-1">Court convicts nine internet fraudsters in Edo</h6>
-                            <small class="text-muted">April 11, 2025</small>
-                        </div>
-                    </div>
-                    <hr>
-                </div>
-        
-                <!-- Add more as needed -->
-                <div class="mb-4">
-                    <div class="d-flex align-items-start">
-                        <i class="bi bi-square-fill text-muted me-2 mt-1"></i>
-                        <div>
-                            <h6 class="mb-1">New cybersecurity law passed by Senate</h6>
-                            <small class="text-muted">April 9, 2025</small>
-                        </div>
-                    </div>
-                    <hr>
-                </div>
+                
         
             </div>
         </div>

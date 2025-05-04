@@ -1,132 +1,155 @@
-{% extends "blogs/base.html" %}
-
-{% block content %}
+{% extends "blogs/base.html" %} {% block content %}
 <!-- section for jumbotron -->
 <div class="container">
-    <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
-        <div class="col-md-6 px-0">
-            <h1 class="display-4 fst-italic">{{recent_articles.0.title}} </h1>
-            <p class="lead my-3"> {{recent_articles.0.content|truncatewords:25}} </p>
-            <p class="lead mb-0"><a href="{% url 'article' recent_articles.0.id %}" class="text-white fw-bold">Continue reading...</a></p>
-        </div>
+  <div class="p-4 p-md-5 mb-4 text-dark rounded bg-warning">
+    <div class="col-md-6 px-0">
+      <h1 class="display-4 fst-italic">{{recent_articles.0.title}}</h1>
+      <p class="lead my-3">{{recent_articles.0.content|truncatewords:25}}</p>
+      <p class="lead mb-0">
+        <a
+          href="{% url 'article' recent_articles.0.id %}"
+          class="text-success fw-bold"
+          >Continue reading...</a
+        >
+      </p>
     </div>
+  </div>
 
-
-    <div class="row mb-2">
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <strong class="d-inline-block mb-2 text-primary"> {{recent_articles.1.category}} </strong>
-                    <h3 class="mb-0">{{recent_articles.1.title|truncatewords:3}}</h3>
-                    <div class="mb-1 text-muted"> {{recent_articles.1.updated_at|date:'M d'}} </div>
-                    <p class="card-text mb-auto"> {{recent_articles.1.content|truncatewords:14}} </p>
-                    <a href="{% url 'article' recent_articles.1.id  %}" class="stretched-link">Continue reading</a>
-                </div>
-                <div class="col-auto d-none d-lg-block">
-                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="{{recent_articles.1.thumbnail.url }}"
-                        role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
-                        focusable="false">
-                        <title>{{recent_articles.1.title.url }}</title>
-                        <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
-                            dy=".3em"></text>
-                    </svg>
-
-                </div>
+  <div class="row mb-2">
+    {% for article in recent_articles|slice:'1:3' %}
+    <div class="col-md-6">
+        <div
+          class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
+        >
+          <div class="col p-4 d-flex flex-column position-static">
+            <strong class="d-inline-block mb-2 text-dark ">
+              {{article.category}}
+            </strong>
+            <h3 class="mb-0">{{recent_articles.1.title|truncatewords:3}}</h3>
+            <div class="mb-1 text-muted">
+              {{article.updated_at|date:'M d'}}
             </div>
+            <p class="card-text mb-auto">
+              {{article.content|truncatewords:14}}
+            </p>
+            <a
+              href="{% url 'article' article.id  %}"
+              class="stretched-link text-success"
+              >Continue reading</a
+            >
+          </div>
+          <div class="col-auto d-none d-lg-block">
+              <img
+              src="{{ recent_articles.2.thumbnail.url }}"
+              alt="{{ recent_articles.2.title }}"
+              width="200"
+              height="250"
+              class="bd-placeholder-img"
+              style="object-fit: cover"
+            />
+          </div>
         </div>
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <strong class="d-inline-block mb-2 text-primary"> {{recent_articles.2.category}} </strong>
-                    <h3 class="mb-0">{{recent_articles.2.title|truncatewords:3}}</h3>
-                    <div class="mb-1 text-muted"> {{recent_articles.2.updated_at|date:'M d'}} </div>
-                    <p class="card-text mb-auto"> {{recent_articles.2.content|truncatewords:14}} </p>
-                    <a href="{% url 'article' recent_articles.2.id  %}" class="stretched-link">Continue reading</a>
-                </div>
-                <div class="col-auto d-none d-lg-block">
-                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="{{recent_articles.2.thumbnail.url }}"
-                        role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
-                        focusable="false">
-                        <title>{{recent_articles.2.title.url }}</title>
-                        <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
-                            dy=".3em"></text>
-                    </svg>
-
-                </div>
+      </div>
+    {% endfor %}
+    
+  </div>
+  <div class="row g-5">
+    <div class="col-md-4 g-5">
+      <div class="position-sticky" style="top: 2rem">
+        <div class="p-4 mb-3 bg-light rounded">
+          <h4 class="text-danger text-center mb-3">Recent Updates</h4>
+          {% for article in recent_articles|slice:'3:10' %}
+          <div class="d-flex flex-column flex-lg-row mb-3">
+            <img
+              src="{{article.thumbnail.url}}"
+              alt="Thumbnail"
+              class="rounded mb-2 mb-sm-0 me-sm-3"
+              width="80"
+              height="80"
+            />
+            <div>
+              <h6 class="mb-1">{{article.content|truncatewords:10}}</h6>
+              <small class="text-muted">
+                {{article.updated_at|date:"F d, Y"}}</small
+              >
+              <hr />
             </div>
+          </div>
+          {% endfor %}
         </div>
-        
+      </div>
     </div>
-    <div class="row g-5">
-        <div class="col-md-4 g-5">
-            <div class="position-sticky" style="top: 2rem;">
-                <div class="p-4 mb-3 bg-light rounded ">
-                    <h4 class="text-danger  text-center mb-3">Recent Updates</h4>
-                    {% for article in recent_articles|slice:'3:10' %}
-                        <div class="d-flex flex-column flex-lg-row mb-3">
-                            <img src="{{article.thumbnail.url}}"
-                                alt="Thumbnail" class="rounded mb-2 mb-sm-0 me-sm-3" width="80" height="80">
-                            <div>
-                                <h6 class="mb-1"> {{article.content|truncatewords:10}} </h6>
-                                <small class="text-muted"> {{article.updated_at|date:"F d, Y"}}</small>
-                                <hr>
-                            </div>
-                        </div>
-                    {% endfor %}
-                                            
-                    
-                </div>
-            </div>
+    <div class="col-md-8">
+      <!-- Loop through each category -->
+      <div class="category-section mb-4">
+        <h5 class="category-title fw-bold">
+          <a href="" class="text-warning">Technology</a>
+        </h5>
+        <div class="row mt-3">
+          <!-- Blog Post -->
+          <div class="col-lg-4 mb-4">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwJBC1UY5A0Sr5MqNBkYcxe8n8y0mNWzL1hg&s"
+              alt="Post Thumbnail"
+              style="height: 150px; width: 100%; object-fit: cover"
+            />
+            <h5 class="mt-2">
+              Fired ub lecturer says his dismissal is an act of scores settling
+            </h5>
+            <small class="text-muted"
+              >Published on Apr 9, 2025 at 2:45 PM</small
+            >
+          </div>
         </div>
-        <div class="col-md-8">
-            <!-- Loop through each category -->
-            <div class="category-section mb-4">
-                <h5 class="category-title fw-bold"><a href="" class="text-dark">Technology</a></h5>
-                <div class="row mt-3">
-                    <!-- Blog Post -->
-                    <div class="col-lg-4 mb-4">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwJBC1UY5A0Sr5MqNBkYcxe8n8y0mNWzL1hg&s"
-                            alt="Post Thumbnail" style="height: 150px; width: 100%; object-fit: cover;">
-                        <h5 class="mt-2">Fired ub lecturer says his dismissal is an act of scores settling</h5>
-                        <small class="text-muted">Published on Apr 9, 2025 at 2:45 PM</small>
-                    </div>
-                </div> <!-- Blog Post -->
-
-            </div>
-            <div class="category-section mb-4">
-                <h5 class="category-title fw-bold"><a href="#" rel="noopener noreferrer" class='text-dark' >World</a></h5>
-                <div class="row mt-3">
-                    <!-- Blog Post -->
-                    <div class="col-md-4 mb-4">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwJBC1UY5A0Sr5MqNBkYcxe8n8y0mNWzL1hg&s"
-                            alt="Post Thumbnail" style="height: 150px; width: 100%; object-fit: cover;">
-                        <h5 class="mt-2">Fired ub lecturer says his dismissal is an act of scores settling</h5>
-                        <small class="text-muted">Published on Apr 9, 2025 at 2:45 PM</small>
-                    </div>
-                </div> <!-- Blog Post -->
-
-            </div>
-
-            <div class="category-section mb-4">
-                <h5 class="category-title fw-bold"><a href="#" rel="noopener noreferrer" class='text-dark' >Cameroon</a></h5>
-                <div class="row mt-3">
-                    <!-- Blog Post -->
-                    <div class="col-md-4 mb-4">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwJBC1UY5A0Sr5MqNBkYcxe8n8y0mNWzL1hg&s"
-                            alt="Post Thumbnail" style="height: 150px; width: 100%; object-fit: cover;">
-                        <h5 class="mt-2">Fired ub lecturer says his dismissal is an act of scores settling</h5>
-                        <small class="text-muted">Published on Apr 9, 2025 at 2:45 PM</small>
-                    </div>
-                </div> <!-- Blog Post -->
-
-            </div>
-
+        <!-- Blog Post -->
+      </div>
+      <div class="category-section mb-4">
+        <h5 class="category-title fw-bold">
+          <a href="#" rel="noopener noreferrer" class="text-warining">World</a>
+        </h5>
+        <div class="row mt-3">
+          <!-- Blog Post -->
+          <div class="col-md-4 mb-4">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwJBC1UY5A0Sr5MqNBkYcxe8n8y0mNWzL1hg&s"
+              alt="Post Thumbnail"
+              style="height: 150px; width: 100%; object-fit: cover"
+            />
+            <h5 class="mt-2">
+              Fired ub lecturer says his dismissal is an act of scores settling
+            </h5>
+            <small class="text-muted"
+              >Published on Apr 9, 2025 at 2:45 PM</small
+            >
+          </div>
         </div>
+        <!-- Blog Post -->
+      </div>
 
-
-
-
+      <div class="category-section mb-4">
+        <h5 class="category-title fw-bold">
+          <a href="#" rel="noopener noreferrer" class="text-warning">Cameroon</a>
+        </h5>
+        <div class="row mt-3">
+          <!-- Blog Post -->
+          <div class="col-md-4 mb-4">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwJBC1UY5A0Sr5MqNBkYcxe8n8y0mNWzL1hg&s"
+              alt="Post Thumbnail"
+              style="height: 150px; width: 100%; object-fit: cover"
+            />
+            <h5 class="mt-2">
+              Fired ub lecturer says his dismissal is an act of scores settling
+            </h5>
+            <small class="text-muted"
+              >Published on Apr 9, 2025 at 2:45 PM</small
+            >
+          </div>
+        </div>
+        <!-- Blog Post -->
+      </div>
     </div>
+  </div>
 </div>
 
 {% endblock %}

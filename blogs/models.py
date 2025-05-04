@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
+
 
 
 class Category(models.Model):
@@ -12,16 +13,14 @@ class Category(models.Model):
         return self.title
     
 class Writer(models.Model):
-    first_name = models.CharField(max_length=256)
-    last_name = models.CharField(max_length=256)
-    email = models.EmailField(unique=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=30)
     bio = models.TextField(blank=True)
     deleted_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)    
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return self.user.username
     
 class Tag(models.Model):
     name = models.CharField(max_length=250)
