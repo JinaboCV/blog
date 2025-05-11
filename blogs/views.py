@@ -6,12 +6,25 @@ from django.core.paginator import Paginator
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from .forms import CreateWriterForm, LoginWriterForm, CreateArticleForm, UpdateArticleForm
+from django.db.models import Q
 
 
 def index(request):
     recent_articles =  Article.objects.order_by('-updated_at')[:12]
+    # Cameroon 
+    c_articles = Article.objects.filter(category__title__iexact='Cameroon').order_by('?')[:3]
+    
+    # Politics
+    p_articles = Article.objects.filter(category__title__iexact='Politics').order_by('?')[:3]
+    
+    # World 
+    w_articles = Article.objects.filter(category__title__iexact='World').order_by('?')[:3]
+    
     context = {
-        'recent_articles':recent_articles
+        'recent_articles':recent_articles,
+        'c_articles': c_articles,
+        'p_articles':p_articles,
+        'w_articles': w_articles,
     }
     return render(request, 'blogs/index.html', context=context)
 
@@ -29,10 +42,24 @@ def category_page(request, category_id):
     }
     return render(request, 'blogs/category-page.html', context=context)
 
+# Search article
+def search(request):
+    query = request.GET.get('query', '')
+    results = Article.objects.filter(
+        Q(category__title__icontains=query) |
+        Q(tags__name__icontains=query) |
+        Q(title__icontains=query) |
+        Q(content__icontains=query)
+    ).distinct()
+
+    context = {"results": results, "query": query}
+    return render(request, 'blogs/search.html', context=context)
+
 def article_detail(request, article_id):
     article = Article.objects.get(id=article_id)
     recent_articles =  Article.objects.order_by('-updated_at')[:12]
-    context = {"article" : article, "recent_articles": recent_articles}
+    related_articles = Article.objects.filter(Q(category=article.category) | Q(tags__in=article.tags.all())).exclude(id=article.id).distinct()[:8]
+    context = {"article" : article, "recent_articles": recent_articles, "related_articles": related_articles}
     return render(request, 'blogs/article-detail.html', context=context)
 
 # Writer Signup 
@@ -82,11 +109,32 @@ def writer_dashboard(request):
 def create_article(request):
     form = CreateArticleForm()
     if request.method == 'POST':
-        form = CreateArticleForm(request.POST)
+        form = CreateArticleForm(request.POST, request.FILES)
         if form.is_valid():
+            article = form.save(commit=False)
+            article.author = request.user.writer
+            article.save()
             form.save()
             return redirect('writer-dashboard')
     context = {'form':form}
     return render(request, 'blogs/create-article.html', context=context)
     
-    
+# Update an article
+@login_required(login_url='login')
+def update_article(request, article_id):
+    article = Article.objects.get(id=article_id)
+    form = UpdateArticleForm(instance=article)
+    if request.method == 'POST':
+        form = UpdateArticleForm(request.POST, instance=article)
+        if form.is_valid():
+            form.save()
+            return redirect('writer-dashboard')
+    context = {'form':form}
+    return render(request, 'blogs/update-article.html', context=context)
+
+# Delete an article
+@login_required(login_url='login')
+def delete_article(request, article_id):
+    article = Article.objects.get(id=article_id)
+    article.delete()
+    return redirect('writer-dashboard')

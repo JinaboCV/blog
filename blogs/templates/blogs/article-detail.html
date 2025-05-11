@@ -14,10 +14,11 @@
                         alt="{{article.title}}" class="img-fluid w-100 mb-2"
                         style="object-fit: cover; max-height: 500px;">
                     <!-- image description -->
-                    <small class="text-secondary">Governor of Borno State, Babagana Umara Zulum</small>
+                    <small class="text-secondary">{{article.title}}</small>
                 </div>
-                <article class="fs-5 lh-lg text-justify text-muted">
-                    {{article.content|linebreaksbr}}
+                <article class="fs-5 lh-lg text-dark">
+                    {{article.content|linebreaksbr  }}
+                </article>
             </div>
         </div>
         <div class="col-lg-2 my-5 pt-5">
@@ -51,56 +52,22 @@
 <div class="container py-5">
     <h3 class="mb-4 fw-bold">More News</h3>
     <div class="row g-4">
+        {% if related_articles %}
+            {% for article in related_articles  %}
+            <!-- News Card -->
+                <div class="col-md-3 position-relative">
+                    <img src=" {{article.thumbnail.url}} " class="card-img-top" alt=" {{article.title}} ">
+                    <h5 class="fw-bold mt-2">{{article.category}}</h5>
+                    <h6 class="card-title ">{{article.title}}</h6>
+                    <p class="card-text text-muted"> {{article.content|truncatewords:10}} </p>
+                    <a href="{% url 'article' article.id %}" class="stretched-link"></a>
+                    <small>{{article.updated_at|date:'M d, Y'}}</small>
+                </div>
+            {% endfor %}
 
-        <!-- News Card 1 -->
-        <div class="col-md-3">
-            <img src="https://gazettengr.com/wp-content/uploads/Zulum-1.png" class="card-img-top" alt="News Image">
-            <h5 class="fw-bold mt-2">Politics</h5>
-            <h6 class="card-title ">Fired UB Lecturer Claims Dismissal Was Political</h6>
-            <p class="card-text text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae, aliquam.
-            </p>
-            <small>April 10, 2025</small>
-        </div>
-        <!-- News Card 1 -->
-        <div class="col-md-3">
-            <img src="https://gazettengr.com/wp-content/uploads/WhatsApp-Image-2023-08-18-at-14.49.17.jpg"
-                class="card-img-top" alt="News Image">
-            <h5 class="fw-bold mt-2">Politics</h5>
-            <h6 class="card-title ">Fired UB Lecturer Claims Dismissal Was Political</h6>
-            <p class="card-text text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae, aliquam.
-            </p>
-            <small>April 10, 2025</small>
-        </div>
-        <!-- News Card 1 -->
-        <div class="col-md-3">
-            <img src="https://gazettengr.com/wp-content/uploads/Untitled-1-Recovered-Recovered-Recovered-Recovered-Recovered-31.png"
-                class="card-img-top" alt="News Image">
-            <h5 class="fw-bold mt-2">Agriculture</h5>
-            <h6 class="card-title ">Fired UB Lecturer Claims Dismissal Was Political</h6>
-            <p class="card-text text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae, aliquam.
-            </p>
-            <small>April 10, 2025</small>
-        </div>
-        <!-- News Card 1 -->
-        <div class="col-md-3">
-            <img src="https://gazettengr.com/wp-content/uploads/WhatsApp-Image-2023-08-18-at-14.49.17.jpg"
-                class="card-img-top" alt="News Image">
-            <h5 class="fw-bold mt-2">Politics</h5>
-            <h6 class="card-title ">Fired UB Lecturer Claims Dismissal Was Political</h6>
-            <p class="card-text text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae, aliquam.
-            </p>
-            <small>April 10, 2025</small>
-        </div>
-        <!-- News Card 1 -->
-        <div class="col-md-3">
-            <img src="https://gazettengr.com/wp-content/uploads/Zulum-1.png" class="card-img-top" alt="News Image">
-            <h5 class="fw-bold mt-2">Politics</h5>
-            <h6 class="card-title ">Fired UB Lecturer Claims Dismissal Was Political</h6>
-            <p class="card-text text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae, aliquam.
-            </p>
-            <small>April 10, 2025</small>
-        </div>
-
+        {% else %}
+         <p>---</p>
+        {% endif %}
     </div>
 </div>
 

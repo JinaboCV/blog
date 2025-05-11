@@ -1,4 +1,4 @@
-<footer class="blog-footer py-5 mt-5">
+<footer class="py-5 mt-5 bg-dark text-warning">
   <div class="container">
     <div class="row">
 
@@ -11,7 +11,7 @@
               {% for category in categories %}
                 {% if forloop.counter0|divisibleby:2 %}
                   <li class="text-center">
-                    <a href="{% url 'category' category.id %}" class="text-dark text-decoration-none">{{ category.title }}</a>
+                    <a href="{% url 'category' category.id %}" class="text-secondary text-decoration-none">{{ category.title }}</a>
                   </li>
                 {% endif %}
               {% endfor %}
@@ -23,7 +23,7 @@
               {% for category in categories %}
                 {% if not forloop.counter0|divisibleby:2 %}
                   <li>
-                    <a href="{% url 'category' category.id %}" class="text-dark text-decoration-none">{{ category.title }}</a>
+                    <a href="{% url 'category' category.id %}" class="text-secondary text-decoration-none">{{ category.title }}</a>
                   </li>
                 {% endif %}
               {% endfor %}
@@ -37,19 +37,19 @@
         <!-- Social Media -->
         <h5 class="mb-3">Follow Us</h5>
         <div class="d-flex gap-3">
-          <a href="https://facebook.com" class="text-dark fs-4" target="_blank"><i class="bi bi-facebook"></i></a>
-          <a href="https://twitter.com" class="text-dark fs-4" target="_blank"><i class="bi bi-twitter-x"></i></a>
-          <a href="https://instagram.com" class="text-dark fs-4" target="_blank"><i class="bi bi-instagram"></i></a>
-          <a href="https://linkedin.com" class="text-dark fs-4" target="_blank"><i class="bi bi-linkedin"></i></a>
-          <a href="https://youtube.com" class="text-dark fs-4" target="_blank"><i class="bi bi-youtube"></i></a>
+          <a href="https://facebook.com" class="text-white fs-4" target="_blank"><i class="bi bi-facebook"></i></a>
+          <a href="https://twitter.com" class="text-white fs-4" target="_blank"><i class="bi bi-twitter"></i></a>
+          <a href="https://instagram.com" class="text-white fs-4" target="_blank"><i class="bi bi-instagram"></i></a>
+          <a href="https://linkedin.com" class="text-white fs-4" target="_blank"><i class="bi bi-linkedin"></i></a>
+          <a href="https://youtube.com" class="text-white fs-4" target="_blank"><i class="bi bi-youtube"></i></a>
         </div>
 
         <!-- About us -->
         <h5 class="mb-3 mt-5">Important links</h5>
         <ul class="list-unstyled">
-          <li><a href="#" class="text-dark " target="_blank">Privacy Policy</a></li>
-          <li><a href="#" class="text-dark " target="_blank">Terms Terms</a></li>
-          <li><a href="#" class="text-dark " target="_blank">About Us</a></li>
+          <li><a href="#" class="text-secondary " target="_blank">Privacy Policy</a></li>
+          <li><a href="#" class="text-secondary" target="_blank">Terms Terms</a></li>
+          <li><a href="#" class="text-secondary " target="_blank">About Us</a></li>
         </ul>
 
 
@@ -65,7 +65,7 @@
             <input type="email" class="form-control" placeholder="Enter your email" required>
           </div>
           <div class="col-sm-4">
-            <button type="submit" class="btn btn-secondary w-100">Subscribe</button>
+            <button type="submit" class="btn btn-warning w-100">Subscribe</button>
           </div>
         </form>
       </div>
@@ -76,7 +76,7 @@
 
     <!-- Bottom text -->
     <div class="text-center text-secondary mt-4">
-      &copy; 2025 Your <a class="text-dark" href="{% url 'home' %}">JinaboCV.</a> All rights reserved.
+      &copy; 2025 Your <a class="text-warning" href="{% url 'home' %}">JinaboCV.</a> All rights reserved.
     </div>
   </div>
 </footer>

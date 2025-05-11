@@ -32,7 +32,7 @@ class Article(models.Model):
     author = models.ForeignKey(Writer, on_delete=models.SET_NULL, null=True, blank= True)
     category = models.ForeignKey(Category,on_delete=models.SET_NULL, null=True, blank= True)
     title = models.CharField(max_length=255)
-    thumbnail = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=None)
+    thumbnail = models.ImageField(upload_to='articles/thumbnails/', height_field=None, width_field=None, max_length=None)
     content = models.TextField()
     tags = models.ManyToManyField(Tag)
     deleted_at = models.DateTimeField(auto_now_add=True)

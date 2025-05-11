@@ -11,4 +11,9 @@ urlpatterns = [
     path('signup', views.writer_signup, name='signup'),
     path('login', views.writer_login, name='login'),
     path('create-article', views.create_article, name='create-article'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('search/', views.search, name='search'),
+    path('update-article/<int:article_id>', views.update_article, name='update-article'),
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
