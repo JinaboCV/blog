@@ -31,11 +31,11 @@ class LoginWriterForm(AuthenticationForm):
 class CreateArticleForm(forms.ModelForm):
     class Meta:
         model = Article
-        fields = ['author', 'category', 'title', 'thumbnail', 'content', 'tags']
+        fields = ['category', 'title', 'thumbnail', 'content', 'tags']
 
 
 # Update an article
 class UpdateArticleForm(forms.ModelForm):
     class Meta:
         model = Article
-        fields = ['author', 'category', 'title', 'thumbnail', 'content', 'tags']
+        fields = ['category', 'title', 'thumbnail', 'content', 'tags']

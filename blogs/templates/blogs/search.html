@@ -1,0 +1,25 @@
+{% extends "blogs/base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <h3 class="mb-4">Search Results for "{{ query }}"</h3>
+    
+    <div class="row g-4">
+        {% if results %}
+            {% for article in results %}
+                <div class="col-md-3">
+                    <a href="{% url 'article' article.id %}">
+                        <img src="{{ article.thumbnail.url }}" class="card-img-top" alt="{{ article.title }}">
+                    </a>
+                    <h5 class="fw-bold mt-2">{{ article.category.name }}</h5>
+                    <h6 class="card-title">{{ article.title|truncatewords:8 }}</h6>
+                    <p class="card-text text-muted">{{ article.content|truncatewords:12 }}</p>
+                    <small>{{ article.updated_at|date:"M d, Y" }}</small>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No results found for "{{ query }}".</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -25,7 +25,7 @@
                         <td>{{article.title}}</td>
                         <td>{{article.category}}</td>
                         <td>{{article.updated_at}}</td>
-                        <td><a href="" >Edit</a></td>
+                        <td><a href="{% url 'update-article' article.id %}" >view</a></td>
                     </tr>
                 {% endfor %}
             {% else %}

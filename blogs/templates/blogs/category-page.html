@@ -4,7 +4,7 @@
 <div class="container">
     <hr>
     <!-- Category Header -->
-    <h2 class="text-center"> {{category.title}} </h2>
+    <h2 class="text-center"> {{category.title|capfirst}} </h2>
     <hr class="w-25 mx-auto my-3" style="height: 2px; width: 50px;">
     {% if articles %}
         <div class="container py-4">
@@ -12,7 +12,7 @@
                 <div class="row border-bottom pb-4 mb-4 align-items-center">
                     <!-- Date -->
                     <div class="col-2 text-center">
-                        <div class="text-muted">
+                        <div class="text-dark">
                             <strong> {{article.updated_at|date:'M d'}} </strong><br>
                             <small> {{article.updated_at|date:'Y'}} </small>
                         </div>
@@ -20,11 +20,11 @@
 
                     <!-- Blog Content -->
                     <div class="col-8">
-                        <h5 class="mb-1 fw-semibold"> <a href="{% url 'article' article.id %}" class="text-dark text-decoration-none">{{article.title}}</a></h5>
-                        <p class="mb-2 text-muted small">
+                        <h5 class="mb-1 fw-semibold"> <a href="{% url 'article' article.id %}" class="text-dark text-decoration-none">{{article.title|capfirst}}</a></h5>
+                        <p class="mb-2 text-dark ">
                             {{article.content|truncatewords:35}}
                         </p>
-                        <p class="mb-0"><small class="text-primary">By {{article.author.user.username}} </small></p>
+                        <p class="mb-0"><strong class="text-warning btn-dark">By {{article.author.user.username|capfirst}} </strong></p>
                     </div>
 
                     <!-- Thumbnail -->
