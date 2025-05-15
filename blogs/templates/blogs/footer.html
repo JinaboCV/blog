@@ -7,15 +7,14 @@
         <h5 class="mb-3">Categories</h5>
         <div class="row">
           <div class="col-6">
-            <ul class="list-unstyled ">
+            <ul class="list-unstyled">
               {% for category in categories %}
                 {% if forloop.counter0|divisibleby:2 %}
-                  <li class="text-center">
+                  <li>
                     <a href="{% url 'category' category.slug %}" class="text-secondary text-decoration-none">{{ category.title }}</a>
                   </li>
                 {% endif %}
               {% endfor %}
-
             </ul>
           </div>
           <div class="col-6">
@@ -34,7 +33,6 @@
 
       <!-- Follow Us Section -->
       <div class="col-lg-3 mb-4">
-        <!-- Social Media -->
         <h5 class="mb-3">Follow Us</h5>
         <div class="d-flex gap-3">
           <a href="https://facebook.com" class="text-white fs-4" target="_blank"><i class="bi bi-facebook"></i></a>
@@ -44,39 +42,32 @@
           <a href="https://youtube.com" class="text-white fs-4" target="_blank"><i class="bi bi-youtube"></i></a>
         </div>
 
-        <!-- About us -->
         <h5 class="mb-3 mt-5">Important links</h5>
         <ul class="list-unstyled">
           <li><a href="{% url 'privacy' %}" class="text-secondary">Privacy Policy</a></li>
           <li><a href="{% url 'terms' %}" class="text-secondary">Terms of Use</a></li>
           <li><a href="{% url 'about' %}" class="text-secondary">About Us</a></li>
         </ul>
-
-
-
       </div>
 
       <!-- Subscription Form -->
       <div class="col-lg-5 mb-4">
         <h5 class="mb-3">Subscribe to our Newsletter</h5>
         <p class="text-secondary">Get the latest updates right in your inbox.</p>
-        <form class="row g-2">
+        <form action="{% url 'subscribe' %}" method="POST" class="row g-2">
+          {% csrf_token %}
           <div class="col-sm-8">
-            <input type="email" class="form-control" placeholder="Enter your email" required>
+            <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
           </div>
           <div class="col-sm-4">
             <button type="submit" class="btn btn-warning w-100">Subscribe</button>
           </div>
         </form>
       </div>
-
-
-
     </div>
 
-    <!-- Bottom text -->
     <div class="text-center text-secondary mt-4">
-      &copy; 2025 Your <a class="text-warning" href="{% url 'home' %}">JinaboCV.</a> All rights reserved.
+      &copy; 2025 <a class="text-warning" href="{% url 'home' %}">JinaboCV</a>. All rights reserved.
     </div>
   </div>
 </footer>

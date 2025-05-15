@@ -4,7 +4,8 @@
 
 {% block content %}
     <div class="container bg-light shadow-md p-5 ">
-        
+        <h3 class="text-center">Update Article</h3>
+        <hr>            
         <form action="" method="post"  autocomplete="off", enctype="multipart/form-data">
             {% csrf_token %}
             {{form|crispy}} 

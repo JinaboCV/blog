@@ -6,7 +6,18 @@
     <br>
     <h5 class="text-center"> Welcome to your dashboard {{user.username|capfirst}} !!</h5>  
     <hr>
-    <a href="{% url 'create-article' %}">Add article</a> 
+    
+    <!-- Search Form -->
+    <div class="row mb-4">
+        <div class="col-md-8 mx-auto">
+            <form method="GET" class="d-flex">
+                <input type="text" name="search" class="form-control me-2" placeholder="Search in your articles..." value="{{ search_query }}">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <a href="{% url 'create-article' %}" class="btn btn-success mb-3">Add article</a> 
     <div class="table-responsive w-100">
         <table class="table table-hover table-bordered mt-3 w-100">
             <thead class="table-light">
@@ -14,6 +25,7 @@
                     <th scope="col">No</th>
                     <th scope="col">Title</th>
                     <th scope="col">Category</th>
+                    <th scope="col">Tags</th>
                     <th scope="col">Updated date</th>
                     <th scope="col">Edit</th>
                 </tr>
@@ -25,14 +37,20 @@
                             <th scope="row">{{article.id}}</th>
                             <td>{{article.title}}</td>
                             <td>{{article.category}}</td>
+                            <td>
+                                {% for tag in article.tags.all %}
+                                    <span class="badge bg-secondary">{{tag.name}}</span>
+                                {% endfor %}
+                            </td>
                             <td>{{article.updated_at}}</td>
-                            <td><a href="{% url 'update-article' article.id %}" >view</a></td>
+                            <td><a href="{% url 'update-article' article.slug %}" >view</a></td>
                         </tr>
                     {% endfor %}
                 {% else %}
-                    <p class='text-center'>No items are available</p>
+                    <tr>
+                        <td colspan="6" class='text-center'>No articles found</td>
+                    </tr>
                 {% endif %}
-
             </tbody>
         </table>
     </div>
@@ -41,6 +59,5 @@
     {% endif %}
     <button class="btn btn-sm btn-danger" ><a href="{% url 'logout' %}" class="text-white">Signout</a></button>
 </div>
-
 
 {% endblock %}
