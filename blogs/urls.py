@@ -18,6 +18,7 @@ urlpatterns = [
     path('terms/', views.terms, name='terms'),
     path('privacy/', views.privacy, name='privacy'),
     path('about/', views.about, name='about'),
+    path('subscribe/', views.subscribe, name='subscribe'),
 ]
 
 if settings.DEBUG:

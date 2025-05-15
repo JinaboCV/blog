@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from .models import Category, Article, Writer, Tag
+from .models import Category, Article, Writer, Tag, Subscriber
 from django.contrib.auth.models import auth
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from .forms import CreateWriterForm, LoginWriterForm, CreateArticleForm, UpdateArticleForm
 from django.db.models import Q
-
+from django.contrib import messages
 
 def index(request):
     recent_articles =  Article.objects.order_by('-updated_at')[:12]
@@ -105,8 +105,23 @@ def writer_logout(request):
 @login_required(login_url='login')
 def writer_dashboard(request):
     writer = Writer.objects.get(user=request.user)
-    articles = Article.objects.filter(author=writer)
-    context = {'articles': articles}
+    search_query = request.GET.get('search', '').strip()
+    
+    if search_query:
+        articles = Article.objects.filter(
+            author=writer
+        ).filter(
+            Q(title__icontains=search_query) |
+            Q(content__icontains=search_query) |
+            Q(tags__name__icontains=search_query)
+        ).distinct().order_by('-updated_at')
+    else:
+        articles = Article.objects.filter(author=writer).order_by('-updated_at')
+    
+    context = {
+        'articles': articles,
+        'search_query': search_query
+    }
     return render(request, 'blogs/writer-dashboard.html', context)
     
 
@@ -127,8 +142,8 @@ def create_article(request):
     
 # Update an article
 @login_required(login_url='login')
-def update_article(request, article_id):
-    article = Article.objects.get(id=article_id)
+def update_article(request, slug):
+    article = Article.objects.get(slug=slug)
     form = UpdateArticleForm(instance=article)
     if request.method == 'POST':
         form = UpdateArticleForm(request.POST, request.FILES, instance=article)
@@ -153,3 +168,21 @@ def privacy(request):
 
 def about(request):
     return render(request, 'blogs/about.html')
+
+
+# Subscribe to the newsletter
+def subscribe(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        if email:
+            # Check if the email is already subscribed
+            if Subscriber.objects.filter(email=email).exists():
+                messages.warning(request, "You are already subscribed.")
+            else:
+                Subscriber.objects.create(email=email)
+                messages.success(request, "You have successfully subscribed!")
+        else:
+            messages.error(request, "Please enter a valid email address.")
+
+    return redirect('home')
+
