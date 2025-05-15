@@ -11,7 +11,7 @@
               {% for category in categories %}
                 {% if forloop.counter0|divisibleby:2 %}
                   <li class="text-center">
-                    <a href="{% url 'category' category.id %}" class="text-secondary text-decoration-none">{{ category.title }}</a>
+                    <a href="{% url 'category' category.slug %}" class="text-secondary text-decoration-none">{{ category.title }}</a>
                   </li>
                 {% endif %}
               {% endfor %}
@@ -23,7 +23,7 @@
               {% for category in categories %}
                 {% if not forloop.counter0|divisibleby:2 %}
                   <li>
-                    <a href="{% url 'category' category.id %}" class="text-secondary text-decoration-none">{{ category.title }}</a>
+                    <a href="{% url 'category' category.slug %}" class="text-secondary text-decoration-none">{{ category.title }}</a>
                   </li>
                 {% endif %}
               {% endfor %}
@@ -47,9 +47,9 @@
         <!-- About us -->
         <h5 class="mb-3 mt-5">Important links</h5>
         <ul class="list-unstyled">
-          <li><a href="#" class="text-secondary " target="_blank">Privacy Policy</a></li>
-          <li><a href="#" class="text-secondary" target="_blank">Terms Terms</a></li>
-          <li><a href="#" class="text-secondary " target="_blank">About Us</a></li>
+          <li><a href="{% url 'privacy' %}" class="text-secondary">Privacy Policy</a></li>
+          <li><a href="{% url 'terms' %}" class="text-secondary">Terms of Use</a></li>
+          <li><a href="{% url 'about' %}" class="text-secondary">About Us</a></li>
         </ul>
 
 

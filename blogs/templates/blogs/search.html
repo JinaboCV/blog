@@ -6,20 +6,58 @@
     
     <div class="row g-4">
         {% if results %}
+        <div class="container py-4">
             {% for article in results %}
-                <div class="col-md-3">
-                    <a href="{% url 'article' article.id %}">
-                        <img src="{{ article.thumbnail.url }}" class="card-img-top" alt="{{ article.title }}">
-                    </a>
-                    <h5 class="fw-bold mt-2">{{ article.category.name }}</h5>
-                    <h6 class="card-title">{{ article.title|truncatewords:8 }}</h6>
-                    <p class="card-text text-muted">{{ article.content|truncatewords:12 }}</p>
-                    <small>{{ article.updated_at|date:"M d, Y" }}</small>
+                <div class="row border-bottom pb-4 mb-4 align-items-center">
+                    <!-- Date -->
+                    <div class="col-sm-2">
+                        <div class="text-dark">
+                            <strong> </strong>
+                            <small>{{article.updated_at|date:'M d, Y'}}  </small>
+                        </div>
+                    </div>
+
+                    <!-- Blog Content -->
+                    <div class="col-sm-8">
+                        <h5 class="mb-1 fw-semibold"> <a href="{% url 'article' article.slug %}" class="text-dark text-decoration-none">{{article.title|capfirst}}</a></h5>
+                        <p class="mb-2 text-dark ">
+                            {{article.content|truncatewords:35}}
+                        </p>
+                        <p class="mb-0"><strong class="text-warning btn-dark">By {{article.author.user.username|capfirst}} </strong></p>
+                    </div>
+
+                    <!-- Thumbnail -->
+                    <div class="col-sm-2">
+
+                        <a href="{% url 'article' article.slug %}" class="text-dark text-decoration-none">
+                            <img src=" {{article.thumbnail.url }} "
+                            alt="  {{article.title}} " class="img-fluid">
+                        </a>
+                        
+                    </div>
                 </div>
             {% endfor %}
-        {% else %}
-            <p>No results found for "{{ query }}".</p>
-        {% endif %}
+        </div>
+    {% else %}
+        <h6 class="text-center">No {{category.title}} posts are available </h6>
+    {% endif %}
     </div>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+    
+            {% if results.has_next %}
+                <li class="page-item">
+                    <a class="page-link text-dark" href="?page={{ results.next_page_number }}">Previous blogs</a>
+                </li>
+            {% endif %}
+    
+            {% if results.has_previous %}
+                <li class="page-item">
+                    <a class="page-link text-dark" href="?page={{ results.previous_page_number }}">Next blogs</a>
+                </li>
+            {% endif %}
+    
+        </ul>
+    </nav>
 </div>
 {% endblock %}

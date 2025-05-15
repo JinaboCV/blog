@@ -26,7 +26,7 @@
                 <h4 class="mb-4 fw-bold text-danger">Recent News</h4>
     
                 {% for article in recent_articles %}
-                    <a href="{% url 'article' article.id %}" class="text-dark">
+                    <a href="{% url 'article' article.slug %}" class="text-dark">
                         <div class="mb-4">
                             <div class="d-flex align-items-start">
                                 <i class="bi bi-square-fill text-warning me-2 mt-1"></i>
@@ -60,7 +60,7 @@
                     <h5 class="fw-bold mt-2">{{article.category}}</h5>
                     <h6 class="card-title ">{{article.title}}</h6>
                     <p class="card-text text-muted"> {{article.content|truncatewords:10}} </p>
-                    <a href="{% url 'article' article.id %}" class="stretched-link"></a>
+                    <a href="{% url 'article' article.slug %}" class="stretched-link"></a>
                     <small>{{article.updated_at|date:'M d, Y'}}</small>
                 </div>
             {% endfor %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Category, Article, Writer, Tag
 from django.contrib.auth.models import auth
@@ -28,9 +28,9 @@ def index(request):
     }
     return render(request, 'blogs/index.html', context=context)
 
-
-def category_page(request, category_id):
-    category = Category.objects.get(id=category_id)
+# Category Page
+def category_page(request, slug):
+    category = get_object_or_404(Category, slug=slug)
     articles = Article.objects.filter(category=category).order_by('-updated_at')
 
     paginator = Paginator(articles, 5)
@@ -44,21 +44,27 @@ def category_page(request, category_id):
 
 # Search article
 def search(request):
-    query = request.GET.get('query', '')
-    results = Article.objects.filter(
-        Q(category__title__icontains=query) |
-        Q(tags__name__icontains=query) |
-        Q(title__icontains=query) |
-        Q(content__icontains=query)
-    ).distinct()
+    query = request.GET.get('query', '').strip()
+    if query:
+        results = Article.objects.filter(
+            Q(category__title__icontains=query) |
+            Q(tags__name__icontains=query) |
+            Q(title__icontains=query) |
+            Q(content__icontains=query)
+        ).order_by('-updated_at').distinct()
+    else:
+        results = Article.objects.none()
 
-    context = {"results": results, "query": query}
+    paginator = Paginator(results, 10)
+    page_number = request.GET.get("page")
+    article_obj = paginator.get_page(page_number)
+    context = {"results": article_obj, "query": query}
     return render(request, 'blogs/search.html', context=context)
 
-def article_detail(request, article_id):
-    article = Article.objects.get(id=article_id)
+def article_detail(request, slug):
+    article = get_object_or_404(Article, slug=slug)
     recent_articles =  Article.objects.order_by('-updated_at')[:12]
-    related_articles = Article.objects.filter(Q(category=article.category) | Q(tags__in=article.tags.all())).exclude(id=article.id).distinct()[:8]
+    related_articles = Article.objects.filter(Q(category=article.category) | Q(tags__in=article.tags.all())).exclude(slug=article.slug).distinct()[:8]
     context = {"article" : article, "recent_articles": recent_articles, "related_articles": related_articles}
     return render(request, 'blogs/article-detail.html', context=context)
 
@@ -125,7 +131,7 @@ def update_article(request, article_id):
     article = Article.objects.get(id=article_id)
     form = UpdateArticleForm(instance=article)
     if request.method == 'POST':
-        form = UpdateArticleForm(request.POST, instance=article)
+        form = UpdateArticleForm(request.POST, request.FILES, instance=article)
         if form.is_valid():
             form.save()
             return redirect('writer-dashboard')
@@ -134,7 +140,16 @@ def update_article(request, article_id):
 
 # Delete an article
 @login_required(login_url='login')
-def delete_article(request, article_id):
-    article = Article.objects.get(id=article_id)
+def delete_article(request, slug):
+    article = get_object_or_404(Article, slug=slug, author=request.user.writer)
     article.delete()
     return redirect('writer-dashboard')
+
+def terms(request):
+    return render(request, 'blogs/terms.html')
+
+def privacy(request):
+    return render(request, 'blogs/privacy.html')
+
+def about(request):
+    return render(request, 'blogs/about.html')

@@ -1,12 +1,12 @@
 {% extends "blogs/base.html" %} {% block content %}
 <!-- section for jumbotron -->
 <div class="container">
-    <div class="p-4 p-md-5 mb-4 text-dark rounded bg-warning">
+    <div class="p-4 p-md-5 mb-4 text-dark bg-warning">
         <div class="col-md-6 px-0">
             <h1 class="display-4 fst-italic">{{recent_articles.0.title}}</h1>
             <p class="lead my-3">{{recent_articles.0.content|truncatewords:25}}</p>
             <p class="lead mb-0">
-                <a href="{% url 'article' recent_articles.0.id %}" class="text-success fw-bold">Continue reading...</a>
+                <a href="{% url 'article' recent_articles.0.slug %}" class="text-success fw-bold">Continue reading...</a>
             </p>
         </div>
     </div>
@@ -17,12 +17,12 @@
             <div class="row g-0 border  overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     <strong class="d-inline-block mb-2 text-dark">
-                        {{article.category}}
+                        {{article.category|capfirst}}
                     </strong>
-                    <h3 class="mb-0">{{article.title|truncatewords:3}}</h3>
+                    <h3 class="mb-0">{{article.title}}</h3>
                     <div class="mb-1 text-muted">{{article.updated_at|date:'M d'}}</div>
                     <p class="card-text mb-auto">{{article.content|truncatewords:14}}</p>
-                    <a href="{% url 'article' article.id  %}" class="stretched-link text-success">Continue reading</a>
+                    <a href="{% url 'article' article.slug %}" class="stretched-link text-success">Continue reading</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
                     <img src="{{ article.thumbnail.url }}" alt="{{ article.title }}" width="200" height="250"
@@ -39,14 +39,13 @@
                     <h4 class="text-danger text-center mb-3">Recent Updates</h4>
                     {% for article in recent_articles|slice:'3:10' %}
                     <div class="d-flex flex-column flex-lg-row mb-3 position-relative">
-                        <img src="{{article.thumbnail.url}}" alt="Thumbnail" class="rounded mb-2 mb-sm-0 me-sm-3"
-                            width="80" height="80" />
+                        
                         <div>
-                            <h6 class="mb-1">{{article.content|truncatewords:10}}</h6>
+                            <h6 class="mb-1">{{article.title}}</h6>
                             <small class="text-muted">
                                 {{article.updated_at|date:"F d, Y"}}</small>
 
-                                <a href="{% url 'article' article.id %}" class="stretched-link"></a>
+                                <a href="{% url 'article' article.slug %}" class="stretched-link"></a>
                             <hr />
                         </div>
                     </div>
@@ -73,7 +72,7 @@
                         <small class="text-muted">Published on {{article.updated_at|date:'F d, Y'}} at
                             {{article.updated_at|date:'G:i A'}}</small>
 
-                        <a href="{% url 'article' article.id %}" class="stretched-link"></a>
+                        <a href="{% url 'article' article.slug %}" class="stretched-link"></a>
                     </div>
                     {% endfor %}
                 </div>
@@ -94,7 +93,7 @@
                         <small class="text-muted">Published on {{article.updated_at|date:'F d, Y'}} at
                             {{article.updated_at|date:'G:i A'}}</small>
 
-                            <a href="{% url 'article' article.id %}" class="stretched-link"></a>
+                            <a href="{% url 'article' article.slug %}" class="stretched-link"></a>
                     </div>
                     {% endfor %}
                 </div>
@@ -115,7 +114,7 @@
                         <small class="text-muted">Published on {{article.updated_at|date:'F d, Y'}} at
                             {{article.updated_at|date:'G:i A'}}</small>
 
-                            <a href="{% url 'article' article.id %}" class="stretched-link"></a>
+                            <a href="{% url 'article' article.slug %}" class="stretched-link"></a>
                     </div>
                     {% endfor %}
                 </div>

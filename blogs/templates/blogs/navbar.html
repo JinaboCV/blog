@@ -10,22 +10,22 @@
       </div>
       <div class="col-4 d-flex justify-content-end align-items-center">
         <a class="link-secondary" href="javascript:void(0);" onclick="toggleSearch()" aria-label="Search">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" stroke="currentColor"
             stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24">
             <title>Search</title>
             <circle cx="10.5" cy="10.5" r="7.5" />
             <path d="M21 21l-5.2-5.2" />
           </svg>
         </a>
-        <a class="btn btn-sm btn-warning" href="{% url 'login' %}">Sign in</a>
+        <a class="btn btn-sm btn-warning d-none d-lg-block" href="{% url 'login' %}">Sign in</a>
       </div>
     </div>
   </header>
 
-  <div class="nav-scroller py-1 mb-2">
+  <div class="nav-scroller py-1 mb-2 d-none d-sm-block">
     <nav class="nav d-flex justify-content-between">
       {% for category in categories|slice:':10' %}
-      <a class="p-2 link-dark" href="{% url 'category' category.id %}">{{ category.title|capfirst }}</a>
+      <a class="p-2 link-dark" href="{% url 'category' category.slug %}">{{ category.title|capfirst }}</a>
       {% endfor %}
     </nav>
   </div>
@@ -34,21 +34,23 @@
   <div id="mySidebar" class="sidebar">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <ul class="list-unstyled">
-      <li><a class="p-2 link-secondary" href="{% url 'home' %}">Home</a></li>
+      <li><a class="p-2" href="{% url 'home' %}">Home</a></li>
+       
       {% for category in categories %}
         <li>
-          <a class="p-2 link-secondary" href="{% url 'category' category.id %}">{{ category.title }}</a>
+          <a class="p-2" href="{% url 'category' category.slug %}">{{ category.title|capfirst }}</a>
         </li>
       {% endfor %}
     </ul>
   </div>
 
-  <!-- Search Form (Initially Hidden) -->
+  <!-- Search Form  -->
   <div id="searchForm" class="search-form" style="display: none;">
     <form action="{% url 'search' %}" method="GET" class="d-flex mt-3">
-      <input type="text" name="query" class="form-control me-2" placeholder="Search..." aria-label="Search">
+      <input type="text" name="query" class="form-control me-2 required" placeholder="Search..." aria-label="Search" required>
       <button type="submit" class="btn btn-warning">Search</button>
     </form>
+    <br>
   </div>
 
 </div>
