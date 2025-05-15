@@ -3,14 +3,14 @@
 {%load crispy_forms_tags %} 
 
 {% block content %}
-    <div class="container w-25 bg-light shadow-md p-5 ">
+    <div class="container bg-light shadow-md p-5 ">
         
         <form action="" method="post"  autocomplete="off", enctype="multipart/form-data">
             {% csrf_token %}
             {{form|crispy}} 
             <br>
             <button type="submit" class="btn btn-primary btn-block p-2"> Update <i class="fa-solid fa-user-plus"></i></button>
-            <button type="submit" class="btn btn-danger btn-block p-2"> Delete  <i class="fa-solid fa-user-plus"></i></button>
+            <!-- <button type="submit" class="btn btn-danger btn-block p-2"> Delete  <i class="fa-solid fa-user-plus"></i></button> -->
         </form>
         <br> 
     </div>

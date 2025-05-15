@@ -11,16 +11,16 @@
             {% for article in articles %}
                 <div class="row border-bottom pb-4 mb-4 align-items-center">
                     <!-- Date -->
-                    <div class="col-2 text-center">
+                    <div class="col-sm-2">
                         <div class="text-dark">
-                            <strong> {{article.updated_at|date:'M d'}} </strong><br>
-                            <small> {{article.updated_at|date:'Y'}} </small>
+                            <strong> </strong>
+                            <small>{{article.updated_at|date:'M d, Y'}}  </small>
                         </div>
                     </div>
 
                     <!-- Blog Content -->
-                    <div class="col-8">
-                        <h5 class="mb-1 fw-semibold"> <a href="{% url 'article' article.id %}" class="text-dark text-decoration-none">{{article.title|capfirst}}</a></h5>
+                    <div class="col-sm-8">
+                        <h5 class="mb-1 fw-semibold"> <a href="{% url 'article' article.slug %}" class="text-dark text-decoration-none">{{article.title|capfirst}}</a></h5>
                         <p class="mb-2 text-dark ">
                             {{article.content|truncatewords:35}}
                         </p>
@@ -28,9 +28,9 @@
                     </div>
 
                     <!-- Thumbnail -->
-                    <div class="col-2">
+                    <div class="col-sm-2">
 
-                        <a href="{% url 'article' article.id %}" class="text-dark text-decoration-none">
+                        <a href="{% url 'article' article.slug %}" class="text-dark text-decoration-none">
                             <img src=" {{article.thumbnail.url }} "
                             alt="  {{article.title}} " class="img-fluid">
                         </a>

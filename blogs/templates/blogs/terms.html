@@ -1,0 +1,39 @@
+{% extends "blogs/base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Terms of Use</h1>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="h5 mb-3">1. Acceptance of Terms</h2>
+            <p>By accessing and using this blog, you accept and agree to be bound by the terms and provisions of this agreement.</p>
+
+            <h2 class="h5 mb-3 mt-4">2. Use License</h2>
+            <p>Permission is granted to temporarily access the materials (articles, blog posts, comments) on this blog for personal, non-commercial viewing only.</p>
+            
+            <h2 class="h5 mb-3 mt-4">3. User Content</h2>
+            <ul>
+                <li>Users may post comments and content where permitted</li>
+                <li>Users must not post harmful, offensive, or illegal content</li>
+                <li>We reserve the right to remove any content without notice</li>
+            </ul>
+
+            <h2 class="h5 mb-3 mt-4">4. Disclaimer</h2>
+            <p>The materials on this blog are provided on an 'as is' basis. We make no warranties, expressed or implied, and hereby disclaim and negate all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
+
+            <h2 class="h5 mb-3 mt-4">5. Limitations</h2>
+            <p>In no event shall this blog or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on this blog.</p>
+
+            <h2 class="h5 mb-3 mt-4">6. Links</h2>
+            <p>We have not reviewed all of the sites linked to this blog and are not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by us of the site. Use of any such linked website is at the user's own risk.</p>
+
+            <h2 class="h5 mb-3 mt-4">7. Modifications</h2>
+            <p>We may revise these terms of use at any time without notice. By using this blog you are agreeing to be bound by the then current version of these terms of service.</p>
+
+            <div class="mt-4">
+                <p class="text-muted">Last updated: {% now "F j, Y" %}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
