@@ -75,10 +75,12 @@ def writer_signup(request):
         form = CreateWriterForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Account created successfully! Please login.')
             return redirect('login')
+        else:
+            messages.error(request, 'Please correct the errors below.')
     context = {'form': form, 'hide_navbar': True, 'hide_footer': True}
     return render(request, 'blogs/signup.html', context=context)
-
 
 # Login a writer
 def writer_login(request):
@@ -91,13 +93,19 @@ def writer_login(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 auth.login(request, user)
+                messages.success(request, f'Welcome back, {user.username}!')
                 return redirect('writer-dashboard')
+            else:
+                messages.error(request, 'Invalid username or password.')
+        else:
+            messages.error(request, 'Please correct the errors below.')
     context = {'form': form, 'hide_navbar': True, 'hide_footer': True}
     return render(request, 'blogs/login.html', context=context)
 
 # Logout
 def writer_logout(request):
     auth.logout(request)
+    messages.info(request, 'You have been logged out successfully.')
     return redirect('home')
 
 # writer's dashboard
@@ -124,7 +132,6 @@ def writer_dashboard(request):
         'hide_footer': True
     }
     return render(request, 'blogs/writer-dashboard.html', context)
-    
 
 # Add an article
 @login_required(login_url='login')
@@ -136,29 +143,44 @@ def create_article(request):
             article = form.save(commit=False)
             article.author = request.user.writer
             article.save()
-            form.save()
+            form.save_m2m()  # Save many-to-many relationships
+            messages.success(request, 'Article created successfully!')
             return redirect('writer-dashboard')
-    context = {'form':form}
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    context = {'form': form}
     return render(request, 'blogs/create-article.html', context=context)
-    
+
 # Update an article
 @login_required(login_url='login')
 def update_article(request, slug):
-    article = Article.objects.get(slug=slug)
+    article = get_object_or_404(Article, slug=slug)
+    if article.author != request.user.writer:
+        messages.error(request, 'You do not have permission to edit this article.')
+        return redirect('writer-dashboard')
+        
     form = UpdateArticleForm(instance=article)
     if request.method == 'POST':
         form = UpdateArticleForm(request.POST, request.FILES, instance=article)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Article updated successfully!')
             return redirect('writer-dashboard')
-    context = {'form':form}
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    context = {'form': form}
     return render(request, 'blogs/update-article.html', context=context)
 
 # Delete an article
 @login_required(login_url='login')
 def delete_article(request, slug):
-    article = get_object_or_404(Article, slug=slug, author=request.user.writer)
+    article = get_object_or_404(Article, slug=slug)
+    if article.author != request.user.writer:
+        messages.error(request, 'You do not have permission to delete this article.')
+        return redirect('writer-dashboard')
+        
     article.delete()
+    messages.success(request, 'Article deleted successfully!')
     return redirect('writer-dashboard')
 
 def terms(request):
@@ -169,7 +191,6 @@ def privacy(request):
 
 def about(request):
     return render(request, 'blogs/about.html')
-
 
 # Subscribe to the newsletter
 def subscribe(request):
