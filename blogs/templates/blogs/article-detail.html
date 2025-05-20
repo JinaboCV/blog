@@ -17,7 +17,7 @@
                     <small class="text-secondary">{{article.title}}</small>
                 </div>
                 <article class="fs-5 lh-lg text-dark">
-                    {{article.content|linebreaksbr  }}
+                    {{article.content|safe}}
                 </article>
             </div>
         </div>
@@ -38,14 +38,9 @@
                             <hr>
                         </div>
                     </a>
-                    
                 {% endfor %}
-                <!-- Recent News Item -->
-                
-        
             </div>
         </div>
-        
     </div>
 </div>
 
@@ -59,14 +54,11 @@
                     <img src=" {{article.thumbnail.url}} " class="card-img-top" alt=" {{article.title}} ">
                     <h5 class="fw-bold mt-2">{{article.category}}</h5>
                     <h6 class="card-title ">{{article.title}}</h6>
-                    <p class="card-text text-muted"> {{article.content|truncatewords:10}} </p>
+                    <p class="card-text text-muted"> {{article.content|striptags|truncatewords:10}} </p>
                     <a href="{% url 'article' article.slug %}" class="stretched-link"></a>
                     <small>{{article.updated_at|date:'M d, Y'}}</small>
                 </div>
             {% endfor %}
-
-        {% else %}
-         <p>---</p>
         {% endif %}
     </div>
 </div>

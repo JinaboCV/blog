@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .models import Writer, Article
-
+from ckeditor.widgets import CKEditorWidget
 from django.forms.widgets import PasswordInput, TextInput
 
 # Create a user 
@@ -41,25 +41,27 @@ class LoginWriterForm(AuthenticationForm):
 
 # Create an article
 class CreateArticleForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorWidget())
+    
     class Meta:
         model = Article
         fields = ['category', 'title', 'thumbnail', 'content', 'tags']
         widgets = {
             'category': forms.Select(attrs={'class': 'form-control w-100'}),
             'title': forms.TextInput(attrs={'class': 'form-control w-100'}),
-            'content': forms.Textarea(attrs={'class': 'form-control w-100', 'rows': 25}),
             'tags': forms.SelectMultiple(attrs={'class': 'form-control w-100'}),
         }
 
 
 # Update an article
 class UpdateArticleForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorWidget())
+    
     class Meta:
         model = Article
         fields = ['category', 'title', 'thumbnail', 'content', 'tags']
         widgets = {
             'category': forms.Select(attrs={'class': 'form-control w-100'}),
             'title': forms.TextInput(attrs={'class': 'form-control w-100'}),
-            'content': forms.Textarea(attrs={'class': 'form-control w-100', 'rows': 25}),
             'tags': forms.SelectMultiple(attrs={'class': 'form-control w-100'}),
         }

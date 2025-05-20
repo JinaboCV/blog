@@ -75,8 +75,8 @@ def writer_signup(request):
         form = CreateWriterForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('writer-dashboard')
-    context = {'form': form}
+            return redirect('login')
+    context = {'form': form, 'hide_navbar': True, 'hide_footer': True}
     return render(request, 'blogs/signup.html', context=context)
 
 
@@ -84,22 +84,21 @@ def writer_signup(request):
 def writer_login(request):
     form = LoginWriterForm()
     if request.method == 'POST':
-        form = LoginWriterForm(request, data = request.POST)
+        form = LoginWriterForm(request, data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
+            username = request.POST.get('username')
+            password = request.POST.get('password')
             user = authenticate(request, username=username, password=password)
-
             if user is not None:
                 auth.login(request, user)
                 return redirect('writer-dashboard')
-    context = {'form': form}
+    context = {'form': form, 'hide_navbar': True, 'hide_footer': True}
     return render(request, 'blogs/login.html', context=context)
 
 # Logout
 def writer_logout(request):
     auth.logout(request)
-    return redirect('login')
+    return redirect('home')
 
 # writer's dashboard
 @login_required(login_url='login')
@@ -120,7 +119,9 @@ def writer_dashboard(request):
     
     context = {
         'articles': articles,
-        'search_query': search_query
+        'search_query': search_query,
+        'hide_navbar': True,
+        'hide_footer': True
     }
     return render(request, 'blogs/writer-dashboard.html', context)
     
