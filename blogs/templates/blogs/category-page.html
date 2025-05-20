@@ -22,19 +22,17 @@
                     <div class="col-sm-8">
                         <h5 class="mb-1 fw-semibold"> <a href="{% url 'article' article.slug %}" class="text-dark text-decoration-none">{{article.title|capfirst}}</a></h5>
                         <p class="mb-2 text-dark ">
-                            {{article.content|truncatewords:35}}
+                            {{article.content|striptags|truncatewords:35}}
                         </p>
                         <p class="mb-0"><strong class="text-warning btn-dark">By {{article.author.user.username|capfirst}} </strong></p>
                     </div>
 
                     <!-- Thumbnail -->
                     <div class="col-sm-2">
-
                         <a href="{% url 'article' article.slug %}" class="text-dark text-decoration-none">
                             <img src=" {{article.thumbnail.url }} "
                             alt="  {{article.title}} " class="img-fluid">
                         </a>
-                        
                     </div>
                 </div>
             {% endfor %}
@@ -42,9 +40,9 @@
     {% else %}
         <h6 class="text-center">No {{category.title}} posts are available </h6>
     {% endif %}
+    
     <nav aria-label="Page navigation">
         <ul class="pagination">
-    
             {% if articles.has_next %}
                 <li class="page-item">
                     <a class="page-link text-dark" href="?page={{ articles.next_page_number }}">Previous blogs</a>
@@ -56,10 +54,7 @@
                     <a class="page-link text-dark" href="?page={{ articles.previous_page_number }}">Next blogs</a>
                 </li>
             {% endif %}
-    
         </ul>
     </nav>
-    
 </div>
-
 {% endblock %}
